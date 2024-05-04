@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = new express()
 const Register = require('./models/model')
 const database = require('./models/db')
+const Post = require('./models/postSchema')
 
 app.use(cors())
 app.use(express.json())
@@ -20,6 +21,20 @@ app.post('/login',async(req,res)=>{
     if(result!=null){
         console.log(result)
         res.send("1")
+    }
+})
+
+app.post('/createpost',async(req,res)=>{
+    try{
+    console.log(req.body)
+    const newPost = new Post(req.body)
+    newPost.save()
+    console.log("Created post successfully...")
+    res.send("Done")
+    }
+    catch{
+        console.log("Error occured while posting...")
+        res.send('Failed')
     }
 })
 
